@@ -62,9 +62,15 @@ def get_topics(topics_glob):
 
 def get_topics_types(topics, topics_glob):
     try:
+        # Get all types from master once
+        topic_types = {topic: type for topic, type in Master('/rosbridge').getTopicTypes()}
         types = []
         for i in topics:
-            types.append(get_topic_type(i, topics_glob))
+            # Make sure topic is public & published
+            if any_match(str(i), topics_glob) and i in topic_types:
+                types.append(topic_types[i])
+            else:
+                types.append("")
         return types
     except:
         return[]
