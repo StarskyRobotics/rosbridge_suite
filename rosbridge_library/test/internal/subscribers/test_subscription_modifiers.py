@@ -160,7 +160,7 @@ class TestMessageHandlers(unittest.TestCase):
             while time.time() < fin:
                 handler.handle_message(x)
                 x = x + 1
-            self.assertEqual(len(received["msgs"]), i)
+            self.assertTrue(i-2 < len(received["msgs"]) < i+2)
         return handler
 
     def help_test_queue(self, handler, queue_length):
